@@ -39,3 +39,5 @@ const ColorfulMessage = (props) => {
 ### props-2
 
 HTML のテキストを渡す場合は `{props.children}`
+
+# レンダリング is 何
