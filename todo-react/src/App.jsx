@@ -3,8 +3,8 @@ import './App.css';
 
 export const App = () => {
   const [todoText, setTodoText] = useState('')
-  const [incompleteTodos, setIncompleteTodos] = useState(["あああああ","いいいいいいい"]);
-  const [completeTodos, setCompleteTodos] = useState(["ううううう"])
+  const [incompleteTodos, setIncompleteTodos] = useState([]);
+  const [completeTodos, setCompleteTodos] = useState([]);
 
   const onChangeTodoText = (evnet) => setTodoText(evnet.target.value);
 
@@ -20,6 +20,23 @@ export const App = () => {
     setIncompleteTodos(newTodos);
   }
 
+  const onClickComplete = (index) => {
+    const newTodos = [...incompleteTodos];
+    const newComplete = [...completeTodos, newTodos[index]];
+    newTodos.splice(index, 1);
+    setIncompleteTodos(newTodos);
+    setCompleteTodos(newComplete);
+  }
+
+  const onClickBack = (index) => {
+    const newCompleteTodos = [...completeTodos];
+    newCompleteTodos.splice(index, 1);
+
+    const newIncompleteTodos = [...incompleteTodos, completeTodos[index]];
+    setCompleteTodos(newCompleteTodos);
+    setIncompleteTodos(newIncompleteTodos);
+  }
+
   return (
     <>
       <div className="inputArea">
@@ -33,7 +50,7 @@ export const App = () => {
             return (
               <li key={todo} className="listItem">
                 <p className="listTitle">{todo}</p>
-                <button>完了</button>
+                <button onClick={() => {onClickComplete(index) }}>完了</button>
                 <button onClick={() => { onClickDelete(index) }}>削除</button>
               </li>
             );
@@ -43,11 +60,11 @@ export const App = () => {
       <div className="completeArea">
         <p>完了済のTODO</p>
         <ul>
-          {completeTodos.map((todo) => {
+          {completeTodos.map((todo, index) => {
             return (
               <li key={todo} className="listItem">
                 <p className="listTitle">{todo}</p>
-                <button>戻す</button>
+                <button onClick={ () => {onClickBack(index)} } >戻す</button>
               </li>
             );
           })}
